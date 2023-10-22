@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS users
 (
     id bigint AUTO_INCREMENT PRIMARY KEY,
     uid varchar(64) UNIQUE NOT NULL,
-    password varchar(64) NOT NULL
+    password varchar(64) NOT NULL,
+    email varchar(64)
 );
 
 CREATE TABLE IF NOT EXISTS roles
