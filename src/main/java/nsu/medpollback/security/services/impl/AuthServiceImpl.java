@@ -103,7 +103,6 @@ public class AuthServiceImpl implements AuthService {
     private boolean isPasswordValid(String password) {
         int len = password.length();
         boolean match = password.matches(Constants.PASSWORD_PATTERN);
-        System.out.println("MATCH PASSWORD: " + match);
         return len >= Constants.PASSWORD_MIN_SYMBOLS && len <= Constants.PASSWORD_MAX_SYMBOLS && match;
     }
 
