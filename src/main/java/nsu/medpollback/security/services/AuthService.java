@@ -1,4 +1,4 @@
-package nsu.medpollback.services;
+package nsu.medpollback.security.services;
 
 import lombok.NonNull;
 import nsu.medpollback.model.dto.UserDto;
@@ -12,5 +12,6 @@ public interface AuthService {
     JwtResponse login(@NonNull JwtRequest authRequest) throws AuthException, NotFoundException;
 
     JwtResponse refresh(@NonNull String refreshToken) throws AuthException, NotFoundException;
+
     JwtResponse register(UserDto userDto) throws AuthException, NotFoundException, BadRequestException;
 }
