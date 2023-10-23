@@ -18,3 +18,8 @@ CREATE TABLE IF NOT EXISTS user_role
     role_id bigint REFERENCES roles ON DELETE CASCADE,
     PRIMARY KEY (user_id, role_id)
 );
+
+INSERT INTO roles(name)
+VALUES ('ADMIN'),
+       ('DOCTOR'),
+       ('USER');

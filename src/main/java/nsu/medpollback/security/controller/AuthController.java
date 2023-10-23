@@ -1,5 +1,6 @@
 package nsu.medpollback.security.controller;
 
+import jakarta.validation.Valid;
 import nsu.medpollback.config.Constants;
 import nsu.medpollback.model.dto.UserDto;
 import nsu.medpollback.model.exceptions.AuthException;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Valid
 @RequestMapping(Constants.BASE_API_PATH)
 public class AuthController {
 

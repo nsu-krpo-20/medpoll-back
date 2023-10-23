@@ -31,7 +31,8 @@ public class AuthServiceImpl implements AuthService {
     private final JwtProvider jwtProvider;
     private final Encoder passwordEncoder;
 
-    public AuthServiceImpl(UserRepository userRepository, UserService userService, JwtProvider jwtProvider, Encoder passwordEncoder) {
+    public AuthServiceImpl(UserRepository userRepository, UserService userService, JwtProvider jwtProvider,
+                           Encoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.jwtProvider = jwtProvider;
@@ -53,8 +54,8 @@ public class AuthServiceImpl implements AuthService {
         if (!jwtProvider.validateRefreshToken(refreshToken)) {
             throw new AuthException("Invalid JWT");
         }
-        final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
-        final String login = claims.getSubject();
+        Claims claims = jwtProvider.getRefreshClaims(refreshToken);
+        String login = claims.getSubject();
         User user = findUser(login);
         return getJwtResponseAndFillCookie(user);
     }
@@ -63,9 +64,9 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public JwtResponse register(UserDto userDto) throws AuthException, NotFoundException, BadRequestException {
         if (userDto.getLogin() == null) {
-            throw new BadRequestException("Login must be present");
+            throw new BadRequestException("Login is null");
         }
-        if (userRepository.findByUid(userDto.getLogin()).isPresent()) {
+        if (userRepository.findByLogin(userDto.getLogin()).isPresent()) {
             throw new AuthException("User already exists");
         }
         checkRegisterConstraints(userDto);
@@ -75,18 +76,18 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private User findUser(String login) throws NotFoundException {
-        return userRepository.findByUid(login).orElseThrow(
+        return userRepository.findByLogin(login).orElseThrow(
                 () -> new NotFoundException("Couldn't find user with uid: " + login));
     }
 
     private void checkRegisterConstraints(UserDto dto) throws BadRequestException {
         if (!isLoginValid(dto.getLogin())) {
             throw new BadRequestException(
-                    "Login isn't valid, must be  " + Constants.LOGIN_MIN_SYMBOLS + "-" + Constants.LOGIN_MAX_SYMBOLS + " symbols, " + Constants.LOGIN_PATTERN);
+                    "Login isn't valid, must be  " + Constants.LOGIN_MIN_SYMBOLS + "-" + Constants.LOGIN_MAX_SYMBOLS + " symbols, and contain valid symbols");
         }
         if (!isPasswordValid(dto.getPassword())) {
             throw new BadRequestException(
-                    "Password isn't valid, must be  " + Constants.PASSWORD_MIN_SYMBOLS + "-" + Constants.PASSWORD_MAX_SYMBOLS + " symbols, " + Constants.PASSWORD_PATTERN);
+                    "Password isn't valid, must be  " + Constants.PASSWORD_MIN_SYMBOLS + "-" + Constants.PASSWORD_MAX_SYMBOLS + " symbols, and contain at least 1 digit and 1 non-digit");
         }
         if (!isEmailValid(dto.getEmail())) {
             throw new BadRequestException("Email isn't valid, must follow rfc 822 & rfc 5322");
@@ -102,6 +103,7 @@ public class AuthServiceImpl implements AuthService {
     private boolean isPasswordValid(String password) {
         int len = password.length();
         boolean match = password.matches(Constants.PASSWORD_PATTERN);
+        System.out.println("MATCH PASSWORD: " + match);
         return len >= Constants.PASSWORD_MIN_SYMBOLS && len <= Constants.PASSWORD_MAX_SYMBOLS && match;
     }
 
@@ -131,7 +133,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private JwtResponse getJwtResponse(User user) {
-        final String accessToken = jwtProvider.generateAccessToken(user);
+        String accessToken = jwtProvider.generateAccessToken(user);
         JwtResponse jwtResponse = new JwtResponse();
         jwtResponse.accessToken(accessToken);
         return jwtResponse;
