@@ -107,13 +107,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private boolean isEmailValid(String email) {
-        try {
-            InternetAddress address = new InternetAddress(email);
-            address.validate();
-            return true;
-        } catch (AddressException e) {
-            return false;
-        }
+        return email.matches(Constants.EMAIL_PATTERN);
     }
 
     private JwtResponse getJwtResponseAndFillCookie(User user) {
