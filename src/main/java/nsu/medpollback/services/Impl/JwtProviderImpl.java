@@ -7,7 +7,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import nsu.medpollback.model.entities.Role;
 import nsu.medpollback.model.entities.User;
-import nsu.medpollback.services.JwtProvider;
+import nsu.medpollback.security.services.JwtProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -41,15 +41,15 @@ public class JwtProviderImpl implements JwtProvider {
         for (Role role : user.getRoles()) {
             roles.add(role.getName());
         }
-        return Jwts.builder().setSubject(user.getUid()).setExpiration(accessExpiration).signWith(jwtAccessSecret).claim(
-                "roles", roles).claim("login", user.getUid()).compact();
+        return Jwts.builder().setSubject(user.getLogin()).setExpiration(accessExpiration).signWith(jwtAccessSecret).claim(
+                "roles", roles).claim("login", user.getLogin()).compact();
     }
 
     public String generateRefreshToken(@NonNull User user) {
         final LocalDateTime now = LocalDateTime.now();
         final Instant refreshExpirationInstant = now.plusDays(30).atZone(ZoneId.systemDefault()).toInstant();
         final Date refreshExpiration = Date.from(refreshExpirationInstant);
-        return Jwts.builder().setSubject(user.getUid()).setExpiration(refreshExpiration).signWith(
+        return Jwts.builder().setSubject(user.getLogin()).setExpiration(refreshExpiration).signWith(
                 jwtRefreshSecret).compact();
     }
 

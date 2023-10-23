@@ -1,4 +1,4 @@
-package nsu.medpollback.services;
+package nsu.medpollback.security.services;
 
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;

@@ -3,8 +3,6 @@ package nsu.medpollback.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -20,8 +18,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "uid")
-    private String uid;
+    @Column(name = "login")
+    private String login;
 
     @Column(name = "password")
     private String password;
