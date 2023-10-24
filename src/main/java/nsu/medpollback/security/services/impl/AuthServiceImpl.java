@@ -1,8 +1,6 @@
 package nsu.medpollback.security.services.impl;
 
 import io.jsonwebtoken.Claims;
-import jakarta.mail.internet.AddressException;
-import jakarta.mail.internet.InternetAddress;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
@@ -19,6 +17,8 @@ import nsu.medpollback.security.dto.JwtResponse;
 import nsu.medpollback.security.services.AuthService;
 import nsu.medpollback.security.services.JwtProvider;
 import nsu.medpollback.services.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -40,8 +40,22 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public ResponseEntity<Void> checkJwt(JwtResponse jwt) {
+        if (!(jwtProvider.validateAccessToken(jwt.getAccessToken()) && jwtProvider.validateRefreshToken(jwt.getRefreshToken()))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
+    @Transactional
     public JwtResponse login(@NonNull JwtRequest authRequest) throws AuthException, NotFoundException {
-        User user = findUser(authRequest.getLogin());
+        User user;
+        try {
+            user = findUserByLogin(authRequest.getLogin());
+        } catch (NotFoundException e) {
+            user = findUserByEmail(authRequest.getLogin());
+        }
         if (passwordEncoder.getPasswordEncoder().matches(authRequest.getPassword(), user.getPassword())) {
             return getJwtResponseAndFillCookie(user);
         } else {
@@ -50,13 +64,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public JwtResponse refresh(@NonNull String refreshToken) throws AuthException, NotFoundException {
         if (!jwtProvider.validateRefreshToken(refreshToken)) {
             throw new AuthException("Invalid JWT");
         }
         Claims claims = jwtProvider.getRefreshClaims(refreshToken);
         String login = claims.getSubject();
-        User user = findUser(login);
+        User user = findUserByLogin(login);
         return getJwtResponseAndFillCookie(user);
     }
 
@@ -71,13 +86,18 @@ public class AuthServiceImpl implements AuthService {
         }
         checkRegisterConstraints(userDto);
         userService.postUser(userDto);
-        User user = findUser(userDto.getLogin());
+        User user = findUserByLogin(userDto.getLogin());
         return getJwtResponseAndFillCookie(user);
     }
 
-    private User findUser(String login) throws NotFoundException {
+    private User findUserByLogin(String login) throws NotFoundException {
         return userRepository.findByLogin(login).orElseThrow(
                 () -> new NotFoundException("Couldn't find user with uid: " + login));
+    }
+
+    private User findUserByEmail(String email) throws NotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException("Couldn't find user with email: " + email));
     }
 
     private void checkRegisterConstraints(UserDto dto) throws BadRequestException {

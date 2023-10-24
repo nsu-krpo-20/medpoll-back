@@ -7,6 +7,7 @@ import nsu.medpollback.model.exceptions.BadRequestException;
 import nsu.medpollback.model.exceptions.NotFoundException;
 import nsu.medpollback.security.dto.JwtRequest;
 import nsu.medpollback.security.dto.JwtResponse;
+import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
     JwtResponse login(@NonNull JwtRequest authRequest) throws AuthException, NotFoundException;
@@ -14,4 +15,6 @@ public interface AuthService {
     JwtResponse refresh(@NonNull String refreshToken) throws AuthException, NotFoundException;
 
     JwtResponse register(UserDto userDto) throws AuthException, NotFoundException, BadRequestException;
+
+    ResponseEntity<Void> checkJwt(JwtResponse jwt);
 }

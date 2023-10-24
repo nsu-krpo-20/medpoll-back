@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Valid
-@RequestMapping(Constants.BASE_API_PATH)
+@RequestMapping(Constants.BASE_API_PATH + "/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -24,25 +24,27 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/auth/register")
-    public ResponseEntity<JwtResponse> registration(@RequestBody UserDto user) throws AuthException, NotFoundException,
+    @PostMapping("/register")
+    public JwtResponse registration(@RequestBody UserDto user) throws AuthException, NotFoundException,
             BadRequestException {
-        JwtResponse token = authService.register(user);
-        return ResponseEntity.ok(token);
+        return authService.register(user);
     }
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) throws AuthException,
+    @PostMapping("/login")
+    public JwtResponse login(@RequestBody JwtRequest authRequest) throws AuthException,
             NotFoundException {
-        JwtResponse token = authService.login(authRequest);
-        return ResponseEntity.ok(token);
+        return authService.login(authRequest);
     }
 
-    @PostMapping("/auth/refresh")
-    public ResponseEntity<JwtResponse> getNewRefreshToken(
+    @PostMapping("/refresh")
+    public JwtResponse getNewRefreshToken(
             @CookieValue(value = "refreshToken") String refreshToken) throws AuthException, NotFoundException {
-        JwtResponse token = authService.refresh(refreshToken);
-        return ResponseEntity.ok(token);
+        return authService.refresh(refreshToken);
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<Void> checkJwt(@RequestBody JwtResponse jwt) {
+        return authService.checkJwt(jwt);
     }
 
 }
