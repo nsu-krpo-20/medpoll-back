@@ -103,14 +103,14 @@ public class AuthServiceImpl implements AuthService {
     private void checkRegisterConstraints(UserDto dto) throws BadRequestException {
         if (!isLoginValid(dto.getLogin())) {
             throw new BadRequestException(
-                    "Login isn't valid, must be  " + Constants.LOGIN_MIN_SYMBOLS + "-" + Constants.LOGIN_MAX_SYMBOLS + " symbols, and contain valid symbols");
+                    "Invalid email, must be  " + Constants.LOGIN_MIN_SYMBOLS + "-" + Constants.LOGIN_MAX_SYMBOLS + " symbols, and contain valid symbols");
         }
         if (!isPasswordValid(dto.getPassword())) {
             throw new BadRequestException(
-                    "Password isn't valid, must be  " + Constants.PASSWORD_MIN_SYMBOLS + "-" + Constants.PASSWORD_MAX_SYMBOLS + " symbols, and contain at least 1 digit and 1 non-digit");
+                    "Invalid email, must be  " + Constants.PASSWORD_MIN_SYMBOLS + "-" + Constants.PASSWORD_MAX_SYMBOLS + " symbols, and contain at least 1 digit and 1 non-digit");
         }
         if (!isEmailValid(dto.getEmail())) {
-            throw new BadRequestException("Email isn't valid, must follow rfc 822 & rfc 5322");
+            throw new BadRequestException("Invalid email, must follow rfc 822 & rfc 5322");
         }
     }
 
