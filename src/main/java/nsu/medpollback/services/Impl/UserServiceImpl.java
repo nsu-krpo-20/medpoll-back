@@ -3,6 +3,7 @@ package nsu.medpollback.services.Impl;
 import nsu.medpollback.model.dto.UserDto;
 import nsu.medpollback.model.entities.Role;
 import nsu.medpollback.model.entities.User;
+import nsu.medpollback.model.exceptions.BadRequestException;
 import nsu.medpollback.model.exceptions.NotFoundException;
 import nsu.medpollback.repositories.RoleRepository;
 import nsu.medpollback.repositories.UserRepository;
@@ -32,8 +33,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void postUser(UserDto userDto) throws NotFoundException {
+    public void postUser(UserDto userDto) throws NotFoundException, BadRequestException {
         User user = mapper.map(userDto, User.class);
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
+            throw new BadRequestException("Email is already registered");
+        }
+        if (userRepository.findByLogin(userDto.getLogin()).isPresent()) {
+            throw new BadRequestException("Login is already registered");
+        }
         user.setId(null);
         user.setLogin(userDto.getLogin());
         Role userRole = findRole("USER");
