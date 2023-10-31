@@ -25,15 +25,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(requests -> requests
+        http.authorizeHttpRequests(
+                requests -> requests
                         .requestMatchers(Constants.BASE_API_PATH + "/auth/*").permitAll()
-//                        .requestMatchers(Constants.BASE_API_PATH + "/").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(LogoutConfigurer::permitAll);
-        http.cors(configurer -> configurer.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
+                        .requestMatchers(Constants.BASE_API_PATH + "/cards/**").permitAll()
+                        .requestMatchers(Constants.BASE_API_PATH + "/prescriptions/**").permitAll()
+                        .anyRequest().authenticated()).addFilterAfter(jwtFilter,
+                                                                      UsernamePasswordAuthenticationFilter.class).logout(
+                LogoutConfigurer::permitAll);
+        http.cors(configurer -> configurer.configurationSource(
+                request -> new CorsConfiguration().applyPermitDefaultValues()));
         http.csrf(AbstractHttpConfigurer::disable);
         http.httpBasic(Customizer.withDefaults());
         return http.build();

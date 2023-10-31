@@ -1,4 +1,4 @@
-package nsu.medpollback.services.Impl;
+package nsu.medpollback.security.services.impl;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
