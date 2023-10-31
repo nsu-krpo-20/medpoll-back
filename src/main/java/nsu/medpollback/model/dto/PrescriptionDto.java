@@ -15,15 +15,15 @@ import jakarta.validation.constraints.*;
  * PrescriptionDto
  */
 @Validated
-@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-10-30T16:31:01.869258105Z[GMT]")
+@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-10-31T06:26:12.141074245Z[GMT]")
 
 
 public class PrescriptionDto   {
   @JsonProperty("id")
   private Long id = null;
 
-  @JsonProperty("patientId")
-  private Long patientId = null;
+  @JsonProperty("patientCardId")
+  private Long patientCardId = null;
 
   @JsonProperty("meds")
   @Valid
@@ -52,23 +52,23 @@ public class PrescriptionDto   {
     this.id = id;
   }
 
-  public PrescriptionDto patientId(Long patientId) {
-    this.patientId = patientId;
+  public PrescriptionDto patientCardId(Long patientCardId) {
+    this.patientCardId = patientCardId;
     return this;
   }
 
   /**
-   * Get patientId
-   * @return patientId
+   * Get patientCardId
+   * @return patientCardId
    **/
       @NotNull
 
-    public Long getPatientId() {
-    return patientId;
+    public Long getPatientCardId() {
+    return patientCardId;
   }
 
-  public void setPatientId(Long patientId) {
-    this.patientId = patientId;
+  public void setPatientCardId(Long patientCardId) {
+    this.patientCardId = patientCardId;
   }
 
   public PrescriptionDto meds(List<MedDto> meds) {
@@ -134,14 +134,14 @@ public class PrescriptionDto   {
     }
     PrescriptionDto prescriptionDto = (PrescriptionDto) o;
     return Objects.equals(this.id, prescriptionDto.id) &&
-        Objects.equals(this.patientId, prescriptionDto.patientId) &&
+        Objects.equals(this.patientCardId, prescriptionDto.patientCardId) &&
         Objects.equals(this.meds, prescriptionDto.meds) &&
         Objects.equals(this.metrics, prescriptionDto.metrics);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, patientId, meds, metrics);
+    return Objects.hash(id, patientCardId, meds, metrics);
   }
 
   @Override
@@ -150,7 +150,7 @@ public class PrescriptionDto   {
     sb.append("class PrescriptionDto {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    patientId: ").append(toIndentedString(patientId)).append("\n");
+    sb.append("    patientCardId: ").append(toIndentedString(patientCardId)).append("\n");
     sb.append("    meds: ").append(toIndentedString(meds)).append("\n");
     sb.append("    metrics: ").append(toIndentedString(metrics)).append("\n");
     sb.append("}");

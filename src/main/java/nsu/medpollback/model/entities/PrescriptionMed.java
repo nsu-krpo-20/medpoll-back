@@ -5,7 +5,6 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Getter
 @Setter
 @ToString
@@ -28,7 +27,6 @@ public class PrescriptionMed {
 
     @Column(name = "period_type")
     private Integer periodType;
-
 
     @ManyToOne
     @JoinColumn(name = "prescription_id")

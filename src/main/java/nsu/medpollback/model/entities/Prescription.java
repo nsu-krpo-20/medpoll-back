@@ -8,7 +8,6 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Getter
 @Setter
 @ToString
@@ -21,7 +20,7 @@ public class Prescription {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "card_id")
     private PatientCard patientCard;
 
     @ToString.Exclude
@@ -31,5 +30,4 @@ public class Prescription {
     @ToString.Exclude
     @OneToMany(mappedBy = "prescription", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<PrescriptionMetric> prescriptionMetrics = new LinkedHashSet<>();
-
 }

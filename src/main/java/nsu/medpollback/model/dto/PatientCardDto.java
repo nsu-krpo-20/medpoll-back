@@ -14,10 +14,13 @@ import jakarta.validation.constraints.*;
  * PatientCardDto
  */
 @Validated
-@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-10-30T16:31:01.869258105Z[GMT]")
+@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-10-31T06:26:12.141074245Z[GMT]")
 
 
 public class PatientCardDto   {
+  @JsonProperty("id")
+  private Long id = null;
+
   @JsonProperty("fullName")
   private String fullName = null;
 
@@ -33,6 +36,24 @@ public class PatientCardDto   {
   @JsonProperty("prescriptions")
   @Valid
   private List<PrescriptionDto> prescriptions = null;
+
+  public PatientCardDto id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+   **/
+  
+    public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   public PatientCardDto fullName(String fullName) {
     this.fullName = fullName;
@@ -143,7 +164,8 @@ public class PatientCardDto   {
       return false;
     }
     PatientCardDto patientCardDto = (PatientCardDto) o;
-    return Objects.equals(this.fullName, patientCardDto.fullName) &&
+    return Objects.equals(this.id, patientCardDto.id) &&
+        Objects.equals(this.fullName, patientCardDto.fullName) &&
         Objects.equals(this.snils, patientCardDto.snils) &&
         Objects.equals(this.phoneNumber, patientCardDto.phoneNumber) &&
         Objects.equals(this.description, patientCardDto.description) &&
@@ -152,7 +174,7 @@ public class PatientCardDto   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(fullName, snils, phoneNumber, description, prescriptions);
+    return Objects.hash(id, fullName, snils, phoneNumber, description, prescriptions);
   }
 
   @Override
@@ -160,6 +182,7 @@ public class PatientCardDto   {
     StringBuilder sb = new StringBuilder();
     sb.append("class PatientCardDto {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    fullName: ").append(toIndentedString(fullName)).append("\n");
     sb.append("    snils: ").append(toIndentedString(snils)).append("\n");
     sb.append("    phoneNumber: ").append(toIndentedString(phoneNumber)).append("\n");
