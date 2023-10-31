@@ -19,7 +19,16 @@ CREATE TABLE IF NOT EXISTS user_role
     PRIMARY KEY (user_id, role_id)
 );
 
+INSERT INTO users(login, password, email)
+VALUES ('admin', 'admin', 'wtf@mail.ru');
+
 INSERT INTO roles(name)
 VALUES ('ADMIN'),
        ('DOCTOR'),
-       ('USER');
+       ('PATIENT');
+
+INSERT INTO user_role(user_id, role_id)
+VALUES (1, 1);
+
+INSERT INTO user_role(user_id, role_id)
+VALUES (1, 2);
