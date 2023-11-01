@@ -92,13 +92,12 @@ public class UserDto   {
     }
     UserDto userDto = (UserDto) o;
     return Objects.equals(this.login, userDto.login) &&
-        Objects.equals(this.password, userDto.password) &&
-        Objects.equals(this.email, userDto.email);
+        Objects.equals(this.password, userDto.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(login, password, email);
+    return Objects.hash(login, password);
   }
 
   @Override
@@ -108,7 +107,6 @@ public class UserDto   {
     
     sb.append("    login: ").append(toIndentedString(login)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("}");
     return sb.toString();
   }

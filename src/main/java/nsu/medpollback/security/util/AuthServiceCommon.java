@@ -58,9 +58,6 @@ public class AuthServiceCommon {
             throw new BadRequestException(
                     "Invalid password, must be  " + Constants.PASSWORD_MIN_SYMBOLS + "-" + Constants.PASSWORD_MAX_SYMBOLS + " symbols, and contain at least 1 digit and 1 non-digit");
         }
-        if (!isEmailValid(dto.getEmail())) {
-            throw new BadRequestException("Invalid email, must follow rfc 822 & rfc 5322");
-        }
     }
 
     private static boolean isLoginValid(String login) {

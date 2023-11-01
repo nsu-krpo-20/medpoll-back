@@ -1,5 +1,6 @@
 package nsu.medpollback.model.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +25,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = true)
     private String email;
 
     @ManyToMany
