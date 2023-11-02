@@ -2,8 +2,7 @@ CREATE TABLE IF NOT EXISTS users
 (
     id       bigint AUTO_INCREMENT PRIMARY KEY,
     login    varchar(64) NOT NULL UNIQUE,
-    password text        NOT NULL,
-    email    text
+    password text        NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS roles
@@ -19,8 +18,8 @@ CREATE TABLE IF NOT EXISTS user_role
     PRIMARY KEY (user_id, role_id)
 );
 
-INSERT INTO users(login, password, email)
-VALUES ('admin', 'admin', 'wtf@mail.ru');
+INSERT INTO users(login, password)
+VALUES ('admin', 'admin');
 
 INSERT INTO roles(name)
 VALUES ('ADMIN'),
