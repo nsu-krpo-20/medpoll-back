@@ -52,8 +52,6 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public JwtResponse login(@NonNull JwtRequest authRequest) throws AuthException, NotFoundException {
         User user = findUserByLogin(authRequest.getLogin());
-        try {
-        }
 
         if (passwordEncoder.getPasswordEncoder().matches(authRequest.getPassword(), user.getPassword())) {
             return getJwtResponseAndFillCookie(user);
