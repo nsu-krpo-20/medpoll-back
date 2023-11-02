@@ -35,4 +35,7 @@ public class PatientCard {
     @OneToMany(mappedBy = "patientCard", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Prescription> prescriptions = new LinkedHashSet<>();
 
+    @OneToOne(mappedBy = "patientCard", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PatientToken patientToken;
+
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(Constants.BASE_API_PATH + "/prescriptions")
 @CrossOrigin(maxAge = 1440)
+@PreAuthorize("hasAuthority('DOCTOR')")
 @Validated
 @RestController
 public class PrescriptionController {
@@ -19,7 +20,6 @@ public class PrescriptionController {
         this.prescriptionService = prescriptionService;
     }
 
-    @PreAuthorize("hasAuthority('DOCTOR')")
     @PostMapping
     public IdDto addPrescription(@RequestBody PrescriptionDto prescriptionDto) {
         return prescriptionService.addPrescription(prescriptionDto);
