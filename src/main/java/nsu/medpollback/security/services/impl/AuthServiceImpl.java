@@ -94,11 +94,6 @@ public class AuthServiceImpl implements AuthService {
                 () -> new NotFoundException("Couldn't find user with uid: " + login));
     }
 
-    private User findUserByEmail(String email) throws NotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("Couldn't find user with email: " + email));
-    }
-
     private JwtResponse getJwtResponseAndFillCookie(User user) {
         JwtResponse jwtResponse;
         jwtResponse = getJwtResponse(user);

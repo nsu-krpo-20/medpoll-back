@@ -21,9 +21,6 @@ public class UserDto   {
   @JsonProperty("password")
   private String password = null;
 
-  @JsonProperty("email")
-  private String email = null;
-
   public UserDto login(String login) {
     this.login = login;
     return this;
@@ -60,25 +57,6 @@ public class UserDto   {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public UserDto email(String email) {
-    this.email = email;
-    return this;
-  }
-
-  /**
-   * Get email
-   * @return email
-   **/
-      @NotNull
-
-    public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 
 

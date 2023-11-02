@@ -72,8 +72,4 @@ public class AuthServiceCommon {
         return len >= Constants.PASSWORD_MIN_SYMBOLS && len <= Constants.PASSWORD_MAX_SYMBOLS && match;
     }
 
-    private static boolean isEmailValid(String email) {
-        return email.matches(Constants.EMAIL_PATTERN);
-    }
-
 }
