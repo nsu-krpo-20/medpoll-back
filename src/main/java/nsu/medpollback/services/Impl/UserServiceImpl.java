@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setId(null);
         user.setLogin(userDto.getLogin());
-        Role userRole = findRole("USER");
+        Role userRole = findRole("DOCTOR");
         Set<Role> roles = new HashSet<>();
         roles.add(userRole);
         user.setRoles(roles);

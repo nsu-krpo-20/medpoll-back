@@ -6,7 +6,9 @@ import nsu.medpollback.model.exceptions.AuthException;
 import nsu.medpollback.model.exceptions.NotFoundException;
 
 public interface PatientCardService {
-    IdDto createCard(PatientCardDto cardDto) throws AuthException;
+    Long createCard(PatientCardDto cardDto) throws AuthException;
 
     PatientCardDto getCard(Long id) throws NotFoundException, AuthException;
+
+    String getToken(Long id) throws NotFoundException;
 }

@@ -1,6 +1,6 @@
 package nsu.medpollback.controllers;
 
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Positive;
 import nsu.medpollback.config.Constants;
 import nsu.medpollback.model.dto.IdDto;
 import nsu.medpollback.model.dto.PatientCardDto;
@@ -24,13 +24,18 @@ public class PatientCardController {
     }
 
     @GetMapping(value = "/{id}")
-    public PatientCardDto getPatientCard(@PathVariable @PositiveOrZero Long id) throws NotFoundException,
+    public PatientCardDto getPatientCard(@PathVariable @Positive Long id) throws NotFoundException,
             AuthException {
         return cardService.getCard(id);
     }
 
     @PostMapping
-    public IdDto createCard(@RequestBody PatientCardDto cardDto) throws AuthException {
+    public Long createCard(@RequestBody PatientCardDto cardDto) throws AuthException {
         return cardService.createCard(cardDto);
+    }
+
+    @GetMapping(value = "/patientToken/{id}")
+    public String getPatientToken(@PathVariable @Positive Long id) throws NotFoundException {
+        return cardService.getToken(id);
     }
 }
