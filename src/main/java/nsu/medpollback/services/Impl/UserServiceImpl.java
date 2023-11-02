@@ -35,9 +35,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void postUser(UserDto userDto) throws NotFoundException, BadRequestException {
         User user = mapper.map(userDto, User.class);
-        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
-            throw new BadRequestException("Email is already registered");
-        }
+
         if (userRepository.findByLogin(userDto.getLogin()).isPresent()) {
             throw new BadRequestException("Login is already registered");
         }
@@ -48,7 +46,7 @@ public class UserServiceImpl implements UserService {
         roles.add(userRole);
         user.setRoles(roles);
         user.setPassword(passwordEncoder.getPasswordEncoder().encode(user.getPassword()));
-        user.setEmail(userDto.getEmail());
+
         User savedUser = userRepository.save(user);
     }
 

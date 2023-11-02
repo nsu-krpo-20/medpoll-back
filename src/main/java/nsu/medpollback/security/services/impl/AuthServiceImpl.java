@@ -51,12 +51,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public JwtResponse login(@NonNull JwtRequest authRequest) throws AuthException, NotFoundException {
-        User user;
+        User user = findUserByLogin(authRequest.getLogin());
         try {
-            user = findUserByLogin(authRequest.getLogin());
-        } catch (NotFoundException e) {
-            user = findUserByEmail(authRequest.getLogin());
         }
+
         if (passwordEncoder.getPasswordEncoder().matches(authRequest.getPassword(), user.getPassword())) {
             return getJwtResponseAndFillCookie(user);
         } else {
@@ -94,11 +92,6 @@ public class AuthServiceImpl implements AuthService {
     private User findUserByLogin(String login) throws NotFoundException {
         return userRepository.findByLogin(login).orElseThrow(
                 () -> new NotFoundException("Couldn't find user with uid: " + login));
-    }
-
-    private User findUserByEmail(String email) throws NotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("Couldn't find user with email: " + email));
     }
 
     private JwtResponse getJwtResponseAndFillCookie(User user) {
