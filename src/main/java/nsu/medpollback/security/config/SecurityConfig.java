@@ -15,6 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -34,7 +36,12 @@ public class SecurityConfig {
                                                                       UsernamePasswordAuthenticationFilter.class).logout(
                 LogoutConfigurer::permitAll);
         http.cors(configurer -> configurer.configurationSource(
-                request -> new CorsConfiguration().applyPermitDefaultValues()));
+                request -> {
+                    var out = new CorsConfiguration().applyPermitDefaultValues();
+                    out.setAllowedOriginPatterns(Arrays.asList("http://localhost:*"));
+                    out.setAllowCredentials(true);
+                    return out;
+                }));
         http.csrf(AbstractHttpConfigurer::disable);
         http.httpBasic(Customizer.withDefaults());
         return http.build();
