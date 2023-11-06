@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -59,7 +60,19 @@ public class PatientCardServiceImpl implements PatientCardService {
 
     @Override
     public String getToken(Long id) throws NotFoundException {
-        PatientToken token = tokenRepository.findById(id).orElseThrow(() -> new NotFoundException("Couldn't find token with card id: " + id));
+        PatientToken token = tokenRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Couldn't find token with card id: " + id));
         return token.getToken().toString();
+    }
+
+    @Override
+    public List<PatientCardDto> getCardsBy(String query, Integer limit, Integer offset) {
+        System.out.println(query);
+        List<PatientCard> cards = cardRepository.findByQuery(query, limit, offset);
+        return cards.stream().map(card -> {
+            PatientCardDto dto = mapper.map(card, PatientCardDto.class);
+            dto.setPrescriptions(null);
+            return dto;
+        }).toList();
     }
 }
