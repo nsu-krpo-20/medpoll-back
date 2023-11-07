@@ -42,7 +42,7 @@ public class PatientCardController {
     }
 
     @GetMapping(value = "/fetch")
-    public List<PatientCardDto> getCardsByQuery(@RequestParam(value = "fullNameQuery", required = false) String query,
+    public List<PatientCardDto> getCardsByQuery(@RequestParam(value = "fullNameQuery") String query,
                                                 @RequestParam(value = "count") @Positive Integer limit,
                                                 @RequestParam(value = "offset") @PositiveOrZero Integer offset) {
         return cardService.getCardsBy(query, limit, offset);

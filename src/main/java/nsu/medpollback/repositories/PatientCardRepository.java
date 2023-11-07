@@ -13,6 +13,7 @@ public interface PatientCardRepository extends CrudRepository<PatientCard, Long>
     @Query(value = """
                 SELECT * FROM patient_cards
                 WHERE (:query IS NULL OR
+                        TRIM(:query) = '' OR
                         LOWER(full_name) LIKE CONCAT('%', LOWER(:query), '%') OR
                         snils LIKE CONCAT('%', LOWER(:query), '%') OR
                         phone_number LIKE CONCAT('%', LOWER(:query), '%'))
