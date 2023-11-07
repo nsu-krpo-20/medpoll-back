@@ -67,7 +67,6 @@ public class PatientCardServiceImpl implements PatientCardService {
 
     @Override
     public List<PatientCardDto> getCardsBy(String query, Integer limit, Integer offset) {
-        System.out.println(query);
         List<PatientCard> cards = cardRepository.findByQuery(query, limit, offset);
         return cards.stream().map(card -> {
             PatientCardDto dto = mapper.map(card, PatientCardDto.class);

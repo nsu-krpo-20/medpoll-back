@@ -10,10 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PatientCardRepository extends CrudRepository<PatientCard, Long> {
-//    SELECT * FROM patient_cards
-//    WHERE (:query IS NULL OR LOWER(full_name) LIKE '%' || LOWER(:query) || '%')
-//    ORDER BY id
-//    LIMIT :limit OFFSET :offset
     @Query(value = """
                 SELECT * FROM patient_cards
                 WHERE (:query IS NULL OR
