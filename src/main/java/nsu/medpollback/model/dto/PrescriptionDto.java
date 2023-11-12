@@ -15,7 +15,7 @@ import jakarta.validation.constraints.*;
  * PrescriptionDto
  */
 @Validated
-@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-10-31T06:26:12.141074245Z[GMT]")
+@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-11-06T10:22:42.327534818Z[GMT]")
 
 
 public class PrescriptionDto   {
@@ -32,6 +32,12 @@ public class PrescriptionDto   {
   @JsonProperty("metrics")
   @Valid
   private List<MetricDto> metrics = null;
+
+  @JsonProperty("timestamp")
+  private Long timestamp = null;
+
+  @JsonProperty("doctorFullName")
+  private String doctorFullName = null;
 
   public PrescriptionDto id(Long id) {
     this.id = id;
@@ -123,6 +129,42 @@ public class PrescriptionDto   {
     this.metrics = metrics;
   }
 
+  public PrescriptionDto timestamp(Long timestamp) {
+    this.timestamp = timestamp;
+    return this;
+  }
+
+  /**
+   * Дата в виде количества секунд с момента 01/01/1970 00:00:00
+   * @return timestamp
+   **/
+  
+    public Long getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(Long timestamp) {
+    this.timestamp = timestamp;
+  }
+
+  public PrescriptionDto doctorFullName(String doctorFullName) {
+    this.doctorFullName = doctorFullName;
+    return this;
+  }
+
+  /**
+   * Get doctorFullName
+   * @return doctorFullName
+   **/
+  
+    public String getDoctorFullName() {
+    return doctorFullName;
+  }
+
+  public void setDoctorFullName(String doctorFullName) {
+    this.doctorFullName = doctorFullName;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -136,12 +178,14 @@ public class PrescriptionDto   {
     return Objects.equals(this.id, prescriptionDto.id) &&
         Objects.equals(this.patientCardId, prescriptionDto.patientCardId) &&
         Objects.equals(this.meds, prescriptionDto.meds) &&
-        Objects.equals(this.metrics, prescriptionDto.metrics);
+        Objects.equals(this.metrics, prescriptionDto.metrics) &&
+        Objects.equals(this.timestamp, prescriptionDto.timestamp) &&
+        Objects.equals(this.doctorFullName, prescriptionDto.doctorFullName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, patientCardId, meds, metrics);
+    return Objects.hash(id, patientCardId, meds, metrics, timestamp, doctorFullName);
   }
 
   @Override
@@ -153,6 +197,8 @@ public class PrescriptionDto   {
     sb.append("    patientCardId: ").append(toIndentedString(patientCardId)).append("\n");
     sb.append("    meds: ").append(toIndentedString(meds)).append("\n");
     sb.append("    metrics: ").append(toIndentedString(metrics)).append("\n");
+    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
+    sb.append("    doctorFullName: ").append(toIndentedString(doctorFullName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

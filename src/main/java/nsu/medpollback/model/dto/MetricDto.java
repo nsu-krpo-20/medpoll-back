@@ -11,7 +11,7 @@ import jakarta.validation.constraints.*;
  * MetricDto
  */
 @Validated
-@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-10-31T06:26:12.141074245Z[GMT]")
+@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-11-06T10:22:42.327534818Z[GMT]")
 
 
 public class MetricDto   {
