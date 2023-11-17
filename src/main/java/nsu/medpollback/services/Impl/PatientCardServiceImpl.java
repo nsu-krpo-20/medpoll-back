@@ -44,7 +44,6 @@ public class PatientCardServiceImpl implements PatientCardService {
         card.setId(null);
         card.setPatientToken(token);
         tokenRepository.save(token);
-        System.out.println("CREATED TOKEN: " + token.getToken().toString());
         return cardRepository.save(card).getId();
     }
 

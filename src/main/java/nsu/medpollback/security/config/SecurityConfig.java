@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -28,20 +29,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
-                requests -> requests
-                        .requestMatchers(Constants.BASE_API_PATH + "/auth/*").permitAll()
-                        .requestMatchers(Constants.BASE_API_PATH + "/cards/**").permitAll()
-                        .requestMatchers(Constants.BASE_API_PATH + "/prescriptions/**").permitAll()
-                        .anyRequest().authenticated()).addFilterAfter(jwtFilter,
-                                                                      UsernamePasswordAuthenticationFilter.class).logout(
-                LogoutConfigurer::permitAll);
-        http.cors(configurer -> configurer.configurationSource(
-                request -> {
-                    var out = new CorsConfiguration().applyPermitDefaultValues();
-                    out.setAllowedOriginPatterns(Arrays.asList("http://localhost:*"));
-                    out.setAllowCredentials(true);
-                    return out;
-                }));
+                requests -> requests.requestMatchers(Constants.BASE_API_PATH + "/auth/*").permitAll().requestMatchers(
+                        Constants.BASE_API_PATH + "/cards/**").permitAll().requestMatchers(
+                        Constants.BASE_API_PATH + "/prescriptions/**").permitAll().anyRequest().authenticated()).addFilterAfter(
+                jwtFilter, UsernamePasswordAuthenticationFilter.class).logout(LogoutConfigurer::permitAll);
+        http.cors(configurer -> configurer.configurationSource(request -> {
+            var out = new CorsConfiguration().applyPermitDefaultValues();
+            out.setAllowedOriginPatterns(List.of("http://localhost:*"));
+            out.setAllowCredentials(true);
+            return out;
+        }));
         http.csrf(AbstractHttpConfigurer::disable);
         http.httpBasic(Customizer.withDefaults());
         return http.build();

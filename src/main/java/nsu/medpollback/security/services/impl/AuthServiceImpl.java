@@ -2,6 +2,7 @@ package nsu.medpollback.security.services.impl;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import nsu.medpollback.config.Constants;
@@ -31,6 +32,8 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final JwtProvider jwtProvider;
     private final Encoder passwordEncoder;
+    private final static String refreshTokenName = "refreshToken";
+
 
     public AuthServiceImpl(UserRepository userRepository, UserService userService, JwtProvider jwtProvider,
                            Encoder passwordEncoder) {
@@ -115,11 +118,30 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private static void fillRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
-        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+        Cookie refreshTokenCookie = new Cookie(refreshTokenName, refreshToken);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(true);
         refreshTokenCookie.setMaxAge(30 * 24 * 60 * 60); // 30 days in seconds
         refreshTokenCookie.setPath("/");
+        response.addCookie(refreshTokenCookie);
+    }
+
+    @Override
+    public void logout() {
+        ServletRequestAttributes requestAttributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (requestAttributes != null) {
+            HttpServletResponse response = requestAttributes.getResponse();
+            if (response != null) {
+                fillCookieNull(response);
+            }
+        }
+    }
+
+    private static void fillCookieNull(HttpServletResponse response) {
+        Cookie refreshTokenCookie = new Cookie(refreshTokenName, null);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(0);
         response.addCookie(refreshTokenCookie);
     }
 }

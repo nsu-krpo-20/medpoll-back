@@ -1,5 +1,6 @@
 package nsu.medpollback.security.services;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import nsu.medpollback.model.dto.UserDto;
 import nsu.medpollback.model.exceptions.AuthException;
@@ -17,4 +18,6 @@ public interface AuthService {
     JwtResponse register(UserDto userDto) throws AuthException, NotFoundException, BadRequestException;
 
     ResponseEntity<Void> checkJwt(JwtResponse jwt);
+
+    void logout();
 }
