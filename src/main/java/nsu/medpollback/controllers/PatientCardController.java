@@ -47,4 +47,9 @@ public class PatientCardController {
                                                 @RequestParam(value = "offset") @PositiveOrZero Integer offset) {
         return cardService.getCardsBy(query, limit, offset);
     }
+
+    @GetMapping(value = "/count")
+    public Long getCardCount() throws AuthException {
+        return cardService.getCardCount();
+    }
 }
