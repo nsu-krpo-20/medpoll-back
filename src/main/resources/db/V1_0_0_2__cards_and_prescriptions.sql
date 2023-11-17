@@ -9,8 +9,11 @@ CREATE TABLE IF NOT EXISTS patient_cards
 
 CREATE TABLE IF NOT EXISTS prescriptions
 (
-    id      bigint AUTO_INCREMENT PRIMARY KEY,
-    card_id bigint REFERENCES patient_cards ON DELETE CASCADE
+    id           bigint AUTO_INCREMENT PRIMARY KEY,
+    card_id      bigint REFERENCES patient_cards ON DELETE CASCADE,
+    created_by   bigint NOT NULL REFERENCES users,
+    created_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    edited_time  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS prescription_meds
@@ -30,6 +33,13 @@ CREATE TABLE IF NOT EXISTS prescription_metrics
     name            text NOT NULL,
     period_type     int  NOT NULL,
     `period`        text NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS prescription_presets (
+    `id` INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` TEXT NOT NULL,
+    `suggested_meds` JSON NULL,
+    `suggested_metrics` JSON NULL
 );
 
 CREATE TABLE IF NOT EXISTS patient_tokens
