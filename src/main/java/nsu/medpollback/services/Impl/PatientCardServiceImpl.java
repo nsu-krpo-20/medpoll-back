@@ -38,6 +38,9 @@ public class PatientCardServiceImpl implements PatientCardService {
             throw new AuthException("Have no rights");
         }
         PatientCard card = mapper.map(cardDto, PatientCard.class);
+        if (!card.getPhoneNumber().isEmpty()) {
+            card.setPhoneNumber(convertPhoneNumberToUnified(card.getPhoneNumber()));
+        }
         PatientToken token = new PatientToken();
         token.setPatientCard(card);
         token.setToken(UUID.randomUUID());
@@ -45,6 +48,10 @@ public class PatientCardServiceImpl implements PatientCardService {
         card.setPatientToken(token);
         tokenRepository.save(token);
         return cardRepository.save(card).getId();
+    }
+
+    private String convertPhoneNumberToUnified(String phoneNumber) {
+        return phoneNumber.replaceFirst("^\\+7", "8");
     }
 
     @Override
