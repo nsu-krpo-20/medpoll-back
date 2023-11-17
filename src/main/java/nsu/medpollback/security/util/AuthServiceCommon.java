@@ -12,6 +12,7 @@ import java.util.Collection;
 
 @Component
 public class AuthServiceCommon {
+
     public static JwtAuthentication getAuthInfo() {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }

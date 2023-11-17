@@ -1,5 +1,8 @@
 package nsu.medpollback.security.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import nsu.medpollback.config.Constants;
 import nsu.medpollback.model.dto.UserDto;
@@ -11,7 +14,10 @@ import nsu.medpollback.security.dto.JwtRequest;
 import nsu.medpollback.security.dto.JwtResponse;
 import nsu.medpollback.security.services.AuthService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @RestController
 @Valid
@@ -45,6 +51,11 @@ public class AuthController {
     @PostMapping("/check")
     public ResponseEntity<Void> checkJwt(@RequestBody JwtResponse jwt) {
         return authService.checkJwt(jwt);
+    }
+
+    @PostMapping("/logout")
+    public void logout() {
+        authService.logout();
     }
 
 }
