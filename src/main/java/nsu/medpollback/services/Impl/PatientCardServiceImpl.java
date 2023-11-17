@@ -73,4 +73,9 @@ public class PatientCardServiceImpl implements PatientCardService {
             return dto;
         }).toList();
     }
+
+    @Override
+    public Long getCardCount() {
+        return cardRepository.count();
+    }
 }

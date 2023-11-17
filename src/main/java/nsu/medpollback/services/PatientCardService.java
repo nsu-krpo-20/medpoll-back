@@ -15,4 +15,6 @@ public interface PatientCardService {
     String getToken(Long id) throws NotFoundException;
 
     List<PatientCardDto> getCardsBy(String query, Integer limit, Integer offset);
+
+    Long getCardCount() throws AuthException;
 }
