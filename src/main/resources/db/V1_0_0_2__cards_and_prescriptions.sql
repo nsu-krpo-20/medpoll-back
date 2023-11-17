@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS patient_cards
 (
     id           bigint AUTO_INCREMENT PRIMARY KEY,
     full_name    text NOT NULL,
-    snils        varchar(11) UNIQUE,
+    snils        varchar(14) UNIQUE,
     phone_number varchar(11) UNIQUE,
     description  text
 );
