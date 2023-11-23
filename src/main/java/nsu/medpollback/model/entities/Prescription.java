@@ -3,7 +3,9 @@ package nsu.medpollback.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -23,11 +25,25 @@ public class Prescription {
     @JoinColumn(name = "card_id")
     private PatientCard patientCard;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "prescription", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<PrescriptionMed> prescriptionMeds = new LinkedHashSet<>();
+    @Column(name = "created_time")
+    private Timestamp createdTime;
+
+    @Column(name = "edited_time")
+    private Timestamp editedTime;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "prescription", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<PrescriptionMetric> prescriptionMetrics = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PrescriptionMed> prescriptionMeds;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PrescriptionMetric> prescriptionMetrics;
+
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private User user;
 }

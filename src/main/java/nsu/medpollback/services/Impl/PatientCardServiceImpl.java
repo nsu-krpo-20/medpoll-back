@@ -1,6 +1,5 @@
 package nsu.medpollback.services.Impl;
 
-import nsu.medpollback.model.dto.IdDto;
 import nsu.medpollback.model.dto.PatientCardDto;
 import nsu.medpollback.model.entities.PatientCard;
 import nsu.medpollback.model.entities.PatientToken;

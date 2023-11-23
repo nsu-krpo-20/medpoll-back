@@ -1,8 +1,9 @@
 package nsu.medpollback.services;
 
-import nsu.medpollback.model.dto.IdDto;
 import nsu.medpollback.model.dto.PrescriptionDto;
+import nsu.medpollback.model.exceptions.AuthException;
+import nsu.medpollback.model.exceptions.BadRequestException;
 
 public interface PrescriptionService {
-    IdDto addPrescription(PrescriptionDto prescriptionDto);
+    Long addPrescription(PrescriptionDto prescriptionDto) throws BadRequestException, AuthException;
 }
