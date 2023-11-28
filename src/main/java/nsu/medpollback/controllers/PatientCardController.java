@@ -3,7 +3,6 @@ package nsu.medpollback.controllers;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import nsu.medpollback.config.Constants;
-import nsu.medpollback.model.dto.IdDto;
 import nsu.medpollback.model.dto.PatientCardDto;
 import nsu.medpollback.model.exceptions.AuthException;
 import nsu.medpollback.model.exceptions.NotFoundException;

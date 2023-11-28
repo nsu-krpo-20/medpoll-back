@@ -32,7 +32,7 @@ public class PatientCard {
     private String description;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "patientCard", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "patientCard", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Prescription> prescriptions = new LinkedHashSet<>();
 
     @OneToOne(mappedBy = "patientCard", cascade = CascadeType.ALL, orphanRemoval = true)

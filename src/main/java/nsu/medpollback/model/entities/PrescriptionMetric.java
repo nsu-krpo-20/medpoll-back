@@ -24,7 +24,7 @@ public class PrescriptionMetric {
     private String period;
 
     @Column(name = "period_type")
-    private Integer periodType;
+    private PeriodType periodType;
 
     @ManyToOne
     @JoinColumn(name = "prescription_id")
