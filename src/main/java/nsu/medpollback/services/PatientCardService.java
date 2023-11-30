@@ -2,12 +2,15 @@ package nsu.medpollback.services;
 
 import nsu.medpollback.model.dto.PatientCardDto;
 import nsu.medpollback.model.exceptions.AuthException;
+import nsu.medpollback.model.exceptions.BadRequestException;
 import nsu.medpollback.model.exceptions.NotFoundException;
 
 import java.util.List;
 
 public interface PatientCardService {
     Long createCard(PatientCardDto cardDto) throws AuthException;
+
+    Long updateCard(PatientCardDto cardDto) throws BadRequestException, AuthException;
 
     PatientCardDto getCard(Long id) throws NotFoundException, AuthException;
 
