@@ -5,6 +5,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import nsu.medpollback.config.Constants;
 import nsu.medpollback.model.dto.PatientCardDto;
 import nsu.medpollback.model.exceptions.AuthException;
+import nsu.medpollback.model.exceptions.BadRequestException;
 import nsu.medpollback.model.exceptions.NotFoundException;
 import nsu.medpollback.services.PatientCardService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +34,11 @@ public class PatientCardController {
     @PostMapping
     public Long createCard(@RequestBody PatientCardDto cardDto) throws AuthException {
         return cardService.createCard(cardDto);
+    }
+
+    @PutMapping
+    public Long updateCard(@RequestBody PatientCardDto cardDto) throws BadRequestException, AuthException {
+        return cardService.updateCard(cardDto);
     }
 
     @GetMapping(value = "/patientToken/{id}")

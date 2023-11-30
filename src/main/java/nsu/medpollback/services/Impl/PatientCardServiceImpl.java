@@ -4,6 +4,7 @@ import nsu.medpollback.model.dto.PatientCardDto;
 import nsu.medpollback.model.entities.PatientCard;
 import nsu.medpollback.model.entities.PatientToken;
 import nsu.medpollback.model.exceptions.AuthException;
+import nsu.medpollback.model.exceptions.BadRequestException;
 import nsu.medpollback.model.exceptions.NotFoundException;
 import nsu.medpollback.repositories.PatientCardRepository;
 import nsu.medpollback.repositories.PatientTokenRepository;
@@ -37,16 +38,33 @@ public class PatientCardServiceImpl implements PatientCardService {
             throw new AuthException("Have no rights");
         }
         PatientCard card = mapper.map(cardDto, PatientCard.class);
+        card.setId(null);
         if (!card.getPhoneNumber().isEmpty()) {
             card.setPhoneNumber(convertPhoneNumberToUnified(card.getPhoneNumber()));
         }
         PatientToken token = new PatientToken();
         token.setPatientCard(card);
         token.setToken(UUID.randomUUID());
-        card.setId(null);
         card.setPatientToken(token);
         tokenRepository.save(token);
         return cardRepository.save(card).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long updateCard(PatientCardDto cardDto) throws BadRequestException, AuthException {
+        if (!AuthServiceCommon.checkAuthorities(AuthServiceCommon.getUserLogin())) {
+            throw new AuthException("Have no rights");
+        }
+        PatientCard cardFromBd = cardRepository.findById(cardDto.getId()).orElseThrow(
+                () -> new BadRequestException("Couldn't find card with id: " + cardDto.getId()));
+
+        PatientCard newCard = mapper.map(cardDto, PatientCard.class);
+        if (!newCard.getPhoneNumber().isEmpty()) {
+            newCard.setPhoneNumber(convertPhoneNumberToUnified(newCard.getPhoneNumber()));
+        }
+        mapper.map(newCard, cardFromBd);
+        return cardRepository.save(cardFromBd).getId();
     }
 
     private String convertPhoneNumberToUnified(String phoneNumber) {
