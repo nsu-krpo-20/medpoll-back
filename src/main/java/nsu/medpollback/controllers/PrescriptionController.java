@@ -32,8 +32,8 @@ public class PrescriptionController {
     }
 
     @GetMapping(value = "/{id}")
-    public PrescriptionDto getPrescriptionById(@PathVariable @Positive Long id, @RequestParam(required = false) UUID cardUUID) throws
-            NotFoundException {
+    public PrescriptionDto getPrescriptionById(@PathVariable @Positive Long id,
+                                               @RequestParam(required = false) UUID cardUUID) throws NotFoundException {
         return prescriptionService.getPrescriptionById(id, cardUUID);
     }
 }
