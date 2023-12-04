@@ -4,14 +4,17 @@ import nsu.medpollback.model.dto.PrescriptionDto;
 import nsu.medpollback.model.entities.*;
 import nsu.medpollback.model.exceptions.AuthException;
 import nsu.medpollback.model.exceptions.BadRequestException;
-import nsu.medpollback.repositories.*;
+import nsu.medpollback.model.exceptions.NotFoundException;
+import nsu.medpollback.repositories.PatientCardRepository;
+import nsu.medpollback.repositories.PrescriptionRepository;
+import nsu.medpollback.repositories.UserRepository;
 import nsu.medpollback.security.util.AuthServiceCommon;
 import nsu.medpollback.services.PrescriptionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 public class PrescriptionServiceImpl implements PrescriptionService {
@@ -26,6 +29,20 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         this.prescriptionRepository = prescriptionRepository;
         this.patientCardRepository = patientCardRepository;
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public PrescriptionDto getPrescriptionById(Long id, UUID cardUUID) throws NotFoundException {
+        String notFoundMsg = "Couldn't find prescription with id " + id;
+        Prescription prescription = prescriptionRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(notFoundMsg));
+        if (AuthServiceCommon.getAuthInfo() == null || !AuthServiceCommon.checkAuthorities(
+                AuthServiceCommon.getUserLogin())) {
+            if (!prescription.getPatientCard().getPatientToken().getToken().equals(cardUUID)) {
+                throw new NotFoundException(notFoundMsg);
+            }
+        }
+        return mapper.map(prescription, PrescriptionDto.class);
     }
 
     @Override

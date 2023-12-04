@@ -4,6 +4,7 @@ import nsu.medpollback.config.Constants;
 import nsu.medpollback.model.dto.UserDto;
 import nsu.medpollback.model.exceptions.BadRequestException;
 import nsu.medpollback.security.domain.JwtAuthentication;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,11 @@ import java.util.Collection;
 public class AuthServiceCommon {
 
     public static JwtAuthentication getAuthInfo() {
-        return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof JwtAuthentication)) {
+            return null;
+        }
+        return (JwtAuthentication) authentication;
     }
 
     public static boolean checkAuthorities(String login) {
