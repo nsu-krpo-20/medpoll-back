@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS patient_cards
 CREATE TABLE IF NOT EXISTS prescriptions
 (
     id           bigint AUTO_INCREMENT PRIMARY KEY,
-    card_id      bigint    NOT NULL REFERENCES patient_cards ON DELETE CASCADE,
+    card_id      bigint    NOT NULL REFERENCES patient_cards (`id`) ON DELETE CASCADE,
     created_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     edited_time  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     created_by   bigint    NOT NULL REFERENCES users,
