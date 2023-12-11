@@ -1,7 +1,10 @@
 package nsu.medpollback.model.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.GenerationTime;
 
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -25,10 +28,10 @@ public class Prescription {
     @JoinColumn(name = "card_id")
     private PatientCard patientCard;
 
-    @Column(name = "created_time")
+    @Column(name = "created_time", insertable = false)
     private Timestamp createdTime;
 
-    @Column(name = "edited_time")
+    @Column(name = "edited_time", insertable = false)
     private Timestamp editedTime;
 
     @Column(name = "is_active")

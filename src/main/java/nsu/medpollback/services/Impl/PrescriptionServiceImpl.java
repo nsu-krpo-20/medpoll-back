@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -48,19 +49,28 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Override
     @Transactional
     public Long addPrescription(PrescriptionDto prescriptionDto) throws BadRequestException, AuthException {
-        User user = userRepository.findById(prescriptionDto.getCreatedBy()).orElseThrow(
-                () -> new BadRequestException("Couldn't find user with id: " + prescriptionDto.getCreatedBy()));
-        if (!AuthServiceCommon.isSamePerson(user.getLogin())) {
+        if (!AuthServiceCommon.checkAuthorities(AuthServiceCommon.getUserLogin())) {
             throw new AuthException("Have no rights");
         }
-        PatientCard card = patientCardRepository.findById(prescriptionDto.getPatientCardId()).orElseThrow(
-                () -> new BadRequestException(
-                        "Couldn't find patient card with id : " + prescriptionDto.getPatientCardId()));
-        Prescription prescription = mapper.map(prescriptionDto, Prescription.class);
-        if (prescription.getPatientCard() == null || !patientCardRepository.existsById(
-                prescription.getPatientCard().getId())) {
-            throw new BadRequestException("PatientCardId must be present");
+
+        User user = userRepository.findByLogin(AuthServiceCommon.getUserLogin()).orElseThrow(() ->
+                new AuthException("Couldn't find user with login: " + AuthServiceCommon.getUserLogin()));
+
+        if (!AuthServiceCommon.isSamePerson(user.getLogin())) {
+            throw new AuthException("Not the same person. Wtf is going on in spring bro");
         }
+
+        // how do i use @Generated :v
+        prescriptionDto.setCreatedTime(Instant.now().toEpochMilli());
+        prescriptionDto.setEditedTime(Instant.now().toEpochMilli());
+        prescriptionDto.setIsActive(true);
+
+        Prescription prescription = mapper.map(prescriptionDto, Prescription.class);
+        if (prescription.getPatientCard() == null) {
+            throw new BadRequestException("Couldn't map the provided PatientCardId to a valid patient card.");
+        }
+
+        PatientCard card = prescription.getPatientCard();
         prescription.setId(null);
         prescription.setUser(user);
         prescription.setPatientCard(card);

@@ -28,14 +28,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-                requests -> requests.requestMatchers(Constants.BASE_API_PATH + "/auth/*").permitAll().requestMatchers(
-                        Constants.BASE_API_PATH + "/cards/**").permitAll().requestMatchers(
-                        Constants.BASE_API_PATH + "/prescriptions/**").permitAll().anyRequest().authenticated()).addFilterAfter(
-                jwtFilter, UsernamePasswordAuthenticationFilter.class).logout(LogoutConfigurer::permitAll);
+        http.authorizeHttpRequests( requests -> requests
+                        .requestMatchers(Constants.BASE_API_PATH + "/auth/*").permitAll()
+                        .requestMatchers(Constants.BASE_API_PATH + "/cards/**").permitAll()
+                        .requestMatchers(Constants.BASE_API_PATH + "/prescriptions/**").permitAll()
+                        .anyRequest().authenticated()
+        ).addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(LogoutConfigurer::permitAll);
+
         http.cors(configurer -> configurer.configurationSource(request -> {
             var out = new CorsConfiguration().applyPermitDefaultValues();
-            out.setAllowedOriginPatterns(List.of("http://localhost:*"));
+            out.setAllowedOriginPatterns(Arrays.asList("http://localhost:*"));
+            out.setAllowedMethods(Arrays.asList("*")); // Looks like by default, only HEAD, GET and POST are allowed
             out.setAllowCredentials(true);
             return out;
         }));
