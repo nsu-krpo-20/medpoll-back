@@ -7,6 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenerationTime;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,4 +50,9 @@ public class Prescription {
     @ManyToOne
     @JoinColumn(name = "created_by")
     private User user;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "prescription", orphanRemoval = true)
+    private List<Report> reports = new ArrayList<>();
+
 }
