@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum PeriodType {
-    N_TIMES_PER_DAY(0),
-    ONCE_PER_N_DAYS(1),
-    WEEK_SCHEDULE(2),
-    CUSTOM(3);
+    N_TIMES_PER_DAY(1),
+    ONCE_PER_N_DAYS(2),
+    WEEK_SCHEDULE(3),
+    CUSTOM(4);
 
     private final long value;
 
