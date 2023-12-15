@@ -32,7 +32,7 @@ public class Report {
     private Timestamp time;
 
     @Column(name = "meds_taken", columnDefinition = "json")
-    private String meds_taken;
+    private String medsTaken;
 
     @Column(name = "metrics", columnDefinition = "json")
     private String metrics;
