@@ -6,6 +6,7 @@ import nsu.medpollback.config.Constants;
 import nsu.medpollback.model.dto.ReportDto;
 import nsu.medpollback.model.exceptions.AuthException;
 import nsu.medpollback.model.exceptions.BadRequestException;
+import nsu.medpollback.model.exceptions.NotFoundException;
 import nsu.medpollback.services.ReportService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,18 +26,20 @@ public class ReportController {
     }
 
     @PostMapping
-    Long addReport(@RequestParam(value = "cardUUID") UUID uuid, @RequestBody ReportDto reportDto) throws BadRequestException,
-            AuthException {
+    Long addReport(@RequestParam(value = "cardUUID") UUID uuid, @RequestBody ReportDto reportDto) throws
+            BadRequestException, AuthException {
         return reportService.addReport(uuid, reportDto);
     }
 
     @GetMapping
-    List<ReportDto> getReports(@RequestParam(value = "cardUUID") UUID uuid, @RequestParam Long prescriptionId) {
+    List<ReportDto> getReports(@RequestParam(value = "cardUUID") UUID uuid, @RequestParam Long prescriptionId) throws
+            NotFoundException {
         return reportService.getReports(uuid, prescriptionId);
     }
 
     @GetMapping("/{id}")
-    ReportDto getReport(@RequestParam(value = "cardUUID") UUID uuid, @PathVariable @Positive Long id) {
+    ReportDto getReport(@RequestParam(value = "cardUUID", required = false) UUID uuid, @PathVariable @Positive Long id) throws
+            NotFoundException {
         return reportService.getReport(id, uuid);
     }
 }
