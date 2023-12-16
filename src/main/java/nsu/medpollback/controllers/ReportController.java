@@ -25,18 +25,18 @@ public class ReportController {
     }
 
     @PostMapping
-    Long addReport(@RequestParam UUID uuid, @RequestBody ReportDto reportDto) throws BadRequestException,
+    Long addReport(@RequestParam(value = "cardUUID") UUID uuid, @RequestBody ReportDto reportDto) throws BadRequestException,
             AuthException {
         return reportService.addReport(uuid, reportDto);
     }
 
     @GetMapping
-    List<ReportDto> getReports(@RequestParam UUID uuid, @RequestParam Long prescriptionId) {
+    List<ReportDto> getReports(@RequestParam(value = "cardUUID") UUID uuid, @RequestParam Long prescriptionId) {
         return reportService.getReports(uuid, prescriptionId);
     }
 
     @GetMapping("/{id}")
-    ReportDto getReport(@RequestParam UUID uuid, @PathVariable @Positive Long id) {
+    ReportDto getReport(@RequestParam(value = "cardUUID") UUID uuid, @PathVariable @Positive Long id) {
         return reportService.getReport(id, uuid);
     }
 }

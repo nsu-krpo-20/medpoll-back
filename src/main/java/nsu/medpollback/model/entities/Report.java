@@ -3,9 +3,10 @@ package nsu.medpollback.model.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import nsu.medpollback.model.converters.HashMapConverter;
 import org.hibernate.proxy.HibernateProxy;
-
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -31,11 +32,13 @@ public class Report {
     @Column(name = "time", insertable = false)
     private Timestamp time;
 
-    @Column(name = "meds_taken", columnDefinition = "json")
-    private String medsTaken;
+    @Column(name = "metrics")
+    @Convert(converter = HashMapConverter.class)
+    private Map<String, Object> metrics;
 
-    @Column(name = "metrics", columnDefinition = "json")
-    private String metrics;
+    @Column(name = "meds_taken")
+    @Convert(converter = HashMapConverter.class)
+    private Map<String, Object> medsTaken;
 
     @Override
     public final boolean equals(Object o) {
