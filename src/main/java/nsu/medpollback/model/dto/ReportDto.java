@@ -2,6 +2,7 @@ package nsu.medpollback.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.Map;
  * DTO for {@link nsu.medpollback.model.entities.Report}
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class ReportDto {

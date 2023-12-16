@@ -37,8 +37,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         String notFoundMsg = "Couldn't find prescription with id " + id;
         Prescription prescription = prescriptionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(notFoundMsg));
-        if (AuthServiceCommon.getAuthInfo() == null || !AuthServiceCommon.checkAuthorities(
-                AuthServiceCommon.getUserLogin())) {
+        if (AuthServiceCommon.getAuthInfo() == null) {
             if (!prescription.getPatientCard().getPatientToken().getToken().equals(cardUUID)) {
                 throw new NotFoundException(notFoundMsg);
             }
