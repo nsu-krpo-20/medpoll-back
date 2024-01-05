@@ -46,6 +46,14 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
+    public PrescriptionDto[] getCardPrescriptions(UUID cardUUID) throws NotFoundException {
+        Prescription[] prescs = prescriptionRepository.findByPatientToken(cardUUID).orElseThrow(
+                () -> new NotFoundException("Couldn't find prescriptions with UUID: " + cardUUID));
+
+        return mapper.map(prescs, PrescriptionDto[].class);
+    }
+
+    @Override
     @Transactional
     public Long addPrescription(PrescriptionDto prescriptionDto) throws BadRequestException, AuthException {
         if (!AuthServiceCommon.checkAuthorities(AuthServiceCommon.getUserLogin())) {

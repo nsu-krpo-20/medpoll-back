@@ -31,6 +31,11 @@ public class PrescriptionController {
         return prescriptionService.addPrescription(prescriptionDto);
     }
 
+    @GetMapping()
+    public PrescriptionDto[] getCardPrescriptions(@RequestParam UUID cardUUID) throws NotFoundException {
+        return prescriptionService.getCardPrescriptions(cardUUID);
+    }
+
     @GetMapping(value = "/{id}")
     public PrescriptionDto getPrescriptionById(@PathVariable @Positive Long id,
                                                @RequestParam(required = false) UUID cardUUID) throws NotFoundException {
