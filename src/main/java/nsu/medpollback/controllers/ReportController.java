@@ -8,6 +8,7 @@ import nsu.medpollback.model.exceptions.AuthException;
 import nsu.medpollback.model.exceptions.BadRequestException;
 import nsu.medpollback.model.exceptions.NotFoundException;
 import nsu.medpollback.services.ReportService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,13 @@ public class ReportController {
     List<ReportDto> getReports(@RequestParam(value = "cardUUID") UUID uuid, @RequestParam Long prescriptionId) throws
             NotFoundException {
         return reportService.getReports(uuid, prescriptionId);
+    }
+
+    @PreAuthorize("hasAuthority('DOCTOR')")
+    @GetMapping(params = "prescriptionId")
+    List<ReportDto> getReportsAuthed(@RequestParam Long prescriptionId)
+            throws NotFoundException {
+        return reportService.getPrescriptionReports(prescriptionId);
     }
 
     @GetMapping("/{id}")

@@ -57,6 +57,21 @@ public class ReportServiceImpl implements ReportService {
         if (!prescription.getPatientCard().getPatientToken().getToken().equals(uuid)) {
             throw new NotFoundException(notFoundMsg);
         }
+        return extractReportDtos(prescriptionId);
+    }
+
+    @Override
+    public List<ReportDto> getPrescriptionReports(Long prescriptionId) throws NotFoundException {
+        String notFoundMsg =
+                "Patient card with the provided UUID could not be found, or the found card didn't have " + "the " +
+                        "provided prescription.";
+        Prescription prescription = prescriptionRepository.findById(prescriptionId).orElseThrow(
+                () -> new NotFoundException(notFoundMsg));
+
+        return extractReportDtos(prescriptionId);
+    }
+
+    private List<ReportDto> extractReportDtos(Long prescriptionId) {
         List<Report> reports = reportRepository.findReportsByPrescriptionId(prescriptionId);
         for (Report report : reports) {
             report.setMedsTaken(null);

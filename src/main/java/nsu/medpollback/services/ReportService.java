@@ -13,5 +13,7 @@ public interface ReportService {
 
     List<ReportDto> getReports(UUID uuid, Long prescriptionId) throws NotFoundException;
 
+    List<ReportDto> getPrescriptionReports(Long prescriptionId) throws NotFoundException;
+
     ReportDto getReport(Long id, UUID uuid) throws NotFoundException;
 }

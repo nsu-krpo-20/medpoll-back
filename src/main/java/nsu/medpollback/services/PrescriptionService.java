@@ -10,7 +10,8 @@ import java.util.UUID;
 public interface PrescriptionService {
     PrescriptionDto getPrescriptionById(Long id, UUID cardUUID) throws NotFoundException;
 
-    PrescriptionDto[] getCardPrescriptions(UUID cardUUID) throws NotFoundException;
+    PrescriptionDto[] getCardPrescriptionsByUUID(UUID cardUUID) throws NotFoundException;
+    PrescriptionDto[] getCardPrescriptions(Long id) throws NotFoundException;
 
     Long addPrescription(PrescriptionDto prescriptionDto) throws BadRequestException, AuthException;
 }
