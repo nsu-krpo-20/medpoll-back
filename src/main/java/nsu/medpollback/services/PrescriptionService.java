@@ -14,4 +14,6 @@ public interface PrescriptionService {
     PrescriptionDto[] getCardPrescriptions(Long id) throws NotFoundException;
 
     Long addPrescription(PrescriptionDto prescriptionDto) throws BadRequestException, AuthException;
+
+    void makeInactive(Long id);
 }

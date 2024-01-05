@@ -31,6 +31,13 @@ public class PrescriptionController {
         return prescriptionService.addPrescription(prescriptionDto);
     }
 
+    @PreAuthorize("hasAuthority('DOCTOR')")
+    @PostMapping("/makeInactive")
+    public void makeInactivePrescription(@RequestParam() Long id) throws BadRequestException,
+            AuthException {
+        prescriptionService.makeInactive(id);
+    }
+
     @GetMapping(params = "cardUUID")
     public PrescriptionDto[] getCardPrescriptionsPatient(@RequestParam UUID cardUUID)
             throws NotFoundException {

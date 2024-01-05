@@ -114,4 +114,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     private static boolean isPeriodTypeValid(PeriodType type) {
         return type != null && PeriodType.isPresent(type.getValue());
     }
+
+    @Override
+    public void makeInactive(Long id) {
+        prescriptionRepository.makeInactive(id);
+    }
 }
