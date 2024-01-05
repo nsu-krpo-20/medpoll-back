@@ -4,8 +4,14 @@ package nsu.medpollback.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import nsu.medpollback.model.converters.HashMapConverter;
+import nsu.medpollback.model.converters.ListConverter;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.type.descriptor.jdbc.JsonAsStringJdbcType;
+
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -32,13 +38,13 @@ public class Report {
     @Column(name = "time", insertable = false)
     private Timestamp time;
 
-    @Column(name = "metrics")
-    @Convert(converter = HashMapConverter.class)
-    private Map<String, Object> metrics;
+    @Column(name = "metrics", columnDefinition = "JSON")
+    @Convert(converter = ListConverter.class)
+    private List<Object> metrics;
 
-    @Column(name = "meds_taken")
-    @Convert(converter = HashMapConverter.class)
-    private Map<String, Object> medsTaken;
+    @Column(name = "meds_taken", columnDefinition = "JSON")
+    @Convert(converter = ListConverter.class)
+    private List<Object> medsTaken;
 
     @Override
     public final boolean equals(Object o) {

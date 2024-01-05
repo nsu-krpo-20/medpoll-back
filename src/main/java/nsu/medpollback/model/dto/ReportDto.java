@@ -1,5 +1,7 @@
 package nsu.medpollback.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -17,14 +20,15 @@ import java.util.Map;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL) // This removes null values from the response
 public class ReportDto {
     private Long id;
     private Long prescriptionId;
     private String feedback;
     private Long time;
-    private Map<String, Boolean> medsTaken;
+    private List<Boolean> medsTaken;
 
-    private Map<String, String> metrics;
+    private List<String> metrics;
 
     @Override
     public String toString() {
